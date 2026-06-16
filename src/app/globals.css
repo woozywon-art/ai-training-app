@@ -1,0 +1,44 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+:root{
+  --bg:#F5F6F8; --card:#FFFFFF; --ink:#1C2230; --soft:#646B7A; --line:#E6E8EC;
+  --blue:#2F6BFF; --blueSoft:#EAF1FF; --green:#15A87A; --greenSoft:#E6F6F0;
+  --amber:#E69A1F; --amberSoft:#FCF1DC; --red:#E5564B; --redSoft:#FBE9E7; --stage:#0E1320;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Pretendard Variable','Pretendard',-apple-system,'Segoe UI',system-ui,sans-serif;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased}
+button:focus,textarea:focus,input:focus{outline:none}
+a{color:inherit;text-decoration:none}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(230,154,31,.6)}70%{box-shadow:0 0 0 11px rgba(230,154,31,0)}100%{box-shadow:0 0 0 0 rgba(230,154,31,0)}}
+.fade{animation:fade .4s ease both}
+.pop{animation:pop .3s cubic-bezier(.22,1,.36,1) both}
+.ping{animation:ping 1.7s ease-out infinite}
+.lift{transition:transform .15s, box-shadow .2s}
+.lift:hover{transform:translateY(-1px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 12px 36px -26px rgba(0,0,0,0.22)}
+.btn{font-family:inherit;background:var(--blue);color:#fff;border:none;border-radius:13px;padding:14px 22px;font-size:16px;font-weight:800;cursor:pointer}
+.btn:disabled{background:#C9CDD6;cursor:not-allowed}
+.btn-ghost{font-family:inherit;background:#fff;color:var(--soft);border:1px solid var(--line);border-radius:13px;padding:14px 18px;font-size:15px;font-weight:700;cursor:pointer}
+.field{width:100%;font-family:inherit;border:1.5px solid var(--line);border-radius:11px;padding:12px 14px;font-size:15px;resize:vertical}
+.field:focus{border-color:var(--blue)}
+@keyframes buddyBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes buddyDot{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes buddyPoint{0%,100%{transform:rotate(32deg)}50%{transform:rotate(20deg)}}
+.buddy-bob{animation:buddyBob 2.6s ease-in-out infinite}
+.buddy-dot{animation:buddyDot 1.8s ease-in-out infinite}
+.buddy-point{transform-origin:80px 50px;animation:buddyPoint 1.2s ease-in-out infinite}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+*{-webkit-tap-highlight-color:transparent}
+a,button,.card,.lift{touch-action:manipulation}
+.lift:active{transform:scale(.985)}
+.btn:active,.btn-ghost:active{transform:scale(.97)}
+@keyframes nodePulse{0%,100%{box-shadow:0 8px 20px -6px var(--blue),0 0 0 0 rgba(47,107,255,.5)}50%{box-shadow:0 8px 20px -6px var(--blue),0 0 0 10px rgba(47,107,255,0)}}
+.node-pulse{animation:nodePulse 1.8s ease-out infinite}
+.hscroll::-webkit-scrollbar{display:none}
+@media (max-width:480px){
+  .card{padding:16px;border-radius:14px}
+  .btn{padding:13px 16px;font-size:15px}
+  .btn-ghost{padding:12px 14px;font-size:14px}
+}
