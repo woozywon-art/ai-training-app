@@ -57,7 +57,7 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
     <main className="fade">
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "var(--bg)", padding: "14px 18px 10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, background: "var(--blue)", color: "#fff", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 15 }}>A</div>
+          <img src="/coddi.svg" alt="코디" width={32} height={32} style={{ borderRadius: 9, display: "block" }} />
           <b style={{ fontSize: 17 }}>AI 실무자 교육</b>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#fff", border: "1.5px solid var(--line)", borderRadius: 12, padding: "11px 14px" }}>
@@ -269,7 +269,7 @@ function SettingsTab({ onReset }: { onReset: () => void }) {
 function TopBar({ title }: { title: string }) {
   return (
     <div style={{ position: "sticky", top: 0, zIndex: 20, background: "var(--bg)", borderBottom: "1px solid var(--line)", padding: "16px 18px", display: "flex", alignItems: "center", gap: 10 }}>
-      <div style={{ width: 30, height: 30, borderRadius: 8, background: "var(--blue)", color: "#fff", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 15 }}>A</div>
+      <img src="/coddi.svg" alt="코디" width={32} height={32} style={{ borderRadius: 9, display: "block" }} />
       <b style={{ fontSize: 17 }}>{title}</b>
     </div>
   );

@@ -1,0 +1,14 @@
+{
+  "name": "AI 실무자 교육",
+  "short_name": "AI 교육",
+  "description": "AI를 실무에 ‘써먹는’ 법, 코디와 함께",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F6F8",
+  "theme_color": "#2F6BFF",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

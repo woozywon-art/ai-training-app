@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3D7BFF"/>
+      <stop offset="1" stop-color="#2454D6"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  <!-- soft glow -->
+  <circle cx="512" cy="540" r="330" fill="#ffffff" opacity="0.10"/>
+  <!-- sparkles (AI) -->
+  <g fill="#FFD36E">
+    <path d="M770 330 l14 40 40 14 -40 14 -14 40 -14 -40 -40 -14 40 -14 z"/>
+    <path d="M300 660 l9 26 26 9 -26 9 -9 26 -9 -26 -26 -9 26 -9 z" opacity="0.9"/>
+  </g>
+  <path d="M742 690 l7 20 20 7 -20 7 -7 20 -7 -20 -20 -7 20 -7 z" fill="#ffffff" opacity="0.85"/>
+  <!-- 코디 -->
+  <g>
+    <!-- antenna -->
+    <line x1="512" y1="300" x2="512" y2="372" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="512" cy="270" r="34" fill="#F5A623"/>
+    <!-- head -->
+    <rect x="300" y="372" width="424" height="378" rx="128" fill="#ffffff"/>
+    <!-- eyes -->
+    <circle cx="432" cy="524" r="31" fill="#1C2230"/>
+    <circle cx="592" cy="524" r="31" fill="#1C2230"/>
+    <circle cx="443" cy="513" r="10" fill="#ffffff"/>
+    <circle cx="603" cy="513" r="10" fill="#ffffff"/>
+    <!-- cheeks -->
+    <circle cx="402" cy="606" r="23" fill="#FF9DB0" opacity="0.55"/>
+    <circle cx="622" cy="606" r="23" fill="#FF9DB0" opacity="0.55"/>
+    <!-- smile -->
+    <path d="M448 592 Q512 656 576 592" stroke="#1C2230" stroke-width="24" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
