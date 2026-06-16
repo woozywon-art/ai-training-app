@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { INTRO, DAYS, PRACTICE, levelById, type Level } from "@/lib/course";
+import { Guide } from "@/components/Buddy";
 
 const BUILDER = Array.from({ length: 20 }, (_, k) => k + 1);
 
@@ -47,7 +48,7 @@ export default function TrackView({ trackKey }: { trackKey: string }) {
         </div>
       </div>
 
-      <p style={{ fontSize: 13, color: "var(--soft)", margin: "0 0 14px" }}>원하는 레벨을 골라 시작하세요.</p>
+      <div style={{ margin: "0 0 14px" }}><Guide mood="point" size={52} read={false} text={`‘${title}’ 트랙이에요. 원하는 레벨을 골라 시작해요! 각 레벨은 AI로 직접 해보는 미션으로 끝나요.`} /></div>
 
       {groups.map((g, gi) => (
         <section key={gi} style={{ marginBottom: 18 }}>

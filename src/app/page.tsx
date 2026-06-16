@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { GOAL, INTRO, DAYS, PRACTICE, levelById, type Level } from "@/lib/course";
+import { Guide } from "@/components/Buddy";
 
 const BUILDER = Array.from({ length: 20 }, (_, k) => k + 1);
 const ALL: Level[] = [...INTRO, ...BUILDER.map((i) => levelById(i)!), ...PRACTICE];
@@ -76,6 +77,9 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
         </div>
       ) : (
         <div style={{ padding: "4px 0 0" }}>
+          <div style={{ padding: "0 18px 4px" }}>
+            <Guide mood={dn === 0 ? "happy" : "cheer"} size={54} read={false} text={dn === 0 ? "AI를 실무에 ‘써먹는’ 법, 저랑 같이 시작해요! 아래 아이콘에서 골라 눌러보세요 👇" : `벌써 ${dn}개나 했네요, 멋져요! 이어서 가볼까요? 😊`} />
+          </div>
           {/* 이어서 학습 */}
           <div style={{ padding: "0 18px" }}>
             <Link href={`/level/${nextId}`} prefetch className="lift" style={{ display: "flex", alignItems: "center", gap: 14, background: "var(--stage)", color: "#fff", borderRadius: 16, padding: "16px 18px" }}>
@@ -179,7 +183,7 @@ function ExploreTab({ done }: { done: Record<number, boolean> }) {
     <main className="fade">
       <TopBar title="둘러보기" />
       <div style={{ padding: "0 18px" }}>
-        <p style={{ fontSize: 14, color: "var(--soft)", margin: "8px 0 16px", lineHeight: 1.6 }}>필요한 것만 골라 배우세요.</p>
+        <div style={{ margin: "8px 0 16px" }}><Guide mood="point" size={54} read={false} text="필요한 일을 골라보세요! 각 레슨은 ‘AI에게 이렇게 시켜라’로 알려드려요." /></div>
         <div style={{ fontSize: 13, fontWeight: 800, color: "var(--blue)", background: "var(--blueSoft)", display: "inline-block", borderRadius: 8, padding: "4px 11px", marginBottom: 9 }}>시작하기</div>
         <div style={{ display: "grid", gap: 9, marginBottom: 22 }}>{INTRO.map((l) => <LessonRow key={l.id} l={l} done={done[l.id]} />)}</div>
         <div style={{ fontSize: 13, fontWeight: 800, color: "var(--blue)", background: "var(--blueSoft)", display: "inline-block", borderRadius: 8, padding: "4px 11px", marginBottom: 9 }}>만들기 마스터 (20레벨)</div>
@@ -206,7 +210,8 @@ function MeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: Ta
     <main className="fade">
       <TopBar title="내 학습" />
       <div style={{ padding: "0 18px" }}>
-        <div className="card" style={{ display: "grid", placeItems: "center", padding: 24, marginTop: 8 }}>
+        <div style={{ marginBottom: 14, marginTop: 8 }}><Guide mood={pct >= 100 ? "cheer" : "talk"} size={54} read={false} text={pct === 0 ? "여기서 진행률을 볼 수 있어요. 한 걸음씩 같이 가요!" : `지금까지 ${pct}% 왔어요. 정말 잘하고 있어요!`} /></div>
+        <div className="card" style={{ display: "grid", placeItems: "center", padding: 24 }}>
           <svg width="140" height="140" viewBox="0 0 140 140">
             <circle cx="70" cy="70" r={r} fill="none" stroke="var(--line)" strokeWidth="12" />
             <circle cx="70" cy="70" r={r} fill="none" stroke="var(--green)" strokeWidth="12" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct / 100)} transform="rotate(-90 70 70)" style={{ transition: "stroke-dashoffset .5s" }} />
@@ -246,6 +251,11 @@ function SettingsTab({ onReset }: { onReset: () => void }) {
           <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>읽어주기</div>
           <p style={{ fontSize: 13.5, color: "var(--soft)", margin: "0 0 12px" }}>레슨에서 코디 말풍선의 🔊 읽어주기를 누르면 소리로 들려줘요.</p>
           <button onClick={() => window.speechSynthesis && window.speechSynthesis.cancel()} className="btn-ghost" style={{ width: "100%" }}>⏹ 읽어주기 멈춤</button>
+        </div>
+        <div className="card" style={{ marginTop: 12 }}>
+          <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>앱 둘러보기</div>
+          <p style={{ fontSize: 13.5, color: "var(--soft)", margin: "0 0 12px" }}>코디의 첫 안내(투어)를 다시 볼 수 있어요.</p>
+          <button onClick={() => window.dispatchEvent(new Event("aitr-tour"))} className="btn-ghost" style={{ width: "100%" }}>👋 코디 투어 다시 보기</button>
         </div>
         <div className="card" style={{ marginTop: 12 }}>
           <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>진도 초기화</div>
