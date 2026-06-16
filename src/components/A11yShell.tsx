@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import Onboarding from "./Onboarding";
+import Splash from "./Splash";
 
 export default function A11yShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -12,5 +13,5 @@ export default function A11yShell({ children }: { children: React.ReactNode }) {
     window.addEventListener("aitr-scale", read);
     return () => window.removeEventListener("aitr-scale", read);
   }, []);
-  return <>{children}<Onboarding /></>;
+  return <>{children}<Splash /><Onboarding /></>;
 }

@@ -60,7 +60,7 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
           <img src="/coddi.svg" alt="코디" width={32} height={32} style={{ borderRadius: 9, display: "block" }} />
           <b style={{ fontSize: 17 }}>AI 실무자 교육</b>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#fff", border: "1.5px solid var(--line)", borderRadius: 12, padding: "11px 14px" }}>
+        <div data-tour="search" style={{ display: "flex", alignItems: "center", gap: 8, background: "#fff", border: "1.5px solid var(--line)", borderRadius: 12, padding: "11px 14px" }}>
           <span style={{ fontSize: 16, opacity: 0.6 }}>🔍</span>
           <input value={qy} onChange={(e) => setQy(e.target.value)} placeholder="무엇을 배워볼까요? (예: 콜드 메시지, 배포)" style={{ flex: 1, border: "none", outline: "none", fontFamily: "inherit", fontSize: 15, background: "transparent" }} />
           {qy && <button onClick={() => setQy("")} style={{ border: "none", background: "none", cursor: "pointer", fontSize: 15, color: "var(--soft)" }}>✕</button>}
@@ -82,7 +82,7 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
           </div>
           {/* 이어서 학습 */}
           <div style={{ padding: "0 18px" }}>
-            <Link href={`/level/${nextId}`} prefetch className="lift" style={{ display: "flex", alignItems: "center", gap: 14, background: "var(--stage)", color: "#fff", borderRadius: 16, padding: "16px 18px" }}>
+            <Link href={`/level/${nextId}`} prefetch data-tour="continue" className="lift" style={{ display: "flex", alignItems: "center", gap: 14, background: "var(--stage)", color: "#fff", borderRadius: 16, padding: "16px 18px" }}>
               <span style={{ fontSize: 26 }}>{dn === 0 ? "✨" : "▶"}</span>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 12, color: "#9DB4FF", fontWeight: 800 }}>{dn === 0 ? "여기서 시작" : "이어서 학습하기"} · {dn}/{ALL.length}</div>
@@ -93,7 +93,7 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
           </div>
 
           {/* 퀵 아이콘 그리드 (리모컨) */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6, padding: "16px 12px 6px" }}>
+          <div data-tour="quick" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6, padding: "16px 12px 6px" }}>
             {quick.map((q) => {
               const inner = (
                 <div className="lift" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "8px 2px", cursor: "pointer", minWidth: 0 }}>
@@ -282,7 +282,7 @@ function BottomNav({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
     { k: "settings", icon: "⚙️", label: "설정" },
   ];
   return (
-    <nav style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "#fff", borderTop: "1px solid var(--line)", display: "flex", paddingBottom: "env(safe-area-inset-bottom)", boxShadow: "0 -6px 20px -14px rgba(0,0,0,0.2)" }}>
+    <nav data-tour="nav" style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "#fff", borderTop: "1px solid var(--line)", display: "flex", paddingBottom: "env(safe-area-inset-bottom)", boxShadow: "0 -6px 20px -14px rgba(0,0,0,0.2)" }}>
       <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", width: "100%" }}>
         {items.map((it) => (
           <button key={it.k} onClick={() => setTab(it.k)} style={{ flex: 1, fontFamily: "inherit", cursor: "pointer", background: "none", border: "none", padding: "9px 0 11px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Level, ExamItem } from "@/lib/course";
-import { Guide } from "./Buddy";
+import { Guide, Buddy } from "./Buddy";
 import { levelTag, INTRO, PRACTICE } from "@/lib/course";
 
 export default function ExamView({ level }: { level: Level }) {
@@ -11,6 +11,7 @@ export default function ExamView({ level }: { level: Level }) {
   const router = useRouter();
   const [view, setView] = useState<"mission" | "take" | "result">("mission");
   const [picks, setPicks] = useState<Record<number, number>>({});
+  const [celebrate, setCelebrate] = useState(false);
   const hasSub = !!e.submission;
   const hasQuiz = e.items.length > 0;
 
@@ -24,13 +25,15 @@ export default function ExamView({ level }: { level: Level }) {
 
   function complete() {
     localStorage.setItem(`aitr:done:${level.id}`, "1");
-    router.push(nextId ? `/level/${nextId}` : "/");
+    setCelebrate(true);
   }
 
   // 자동 채점(객관식·진위형)
   const objItems = e.items.filter((i) => i.kind !== "주관식");
   const objTotal = objItems.reduce((a, i) => a + i.pts, 0);
   const objGot = e.items.reduce((a, it, idx) => ((it.kind === "객관식" || it.kind === "진위형") && picks[idx] === it.answer ? a + it.pts : a), 0);
+
+  if (celebrate) return <Celebration nextId={nextId} onNext={() => router.push(nextId ? `/level/${nextId}` : "/")} />;
 
   /* ---------------- 미션 화면 (기본) ---------------- */
   if (view === "mission")
@@ -165,6 +168,30 @@ function ItemResult({ idx, it, pick }: { idx: number; it: ExamItem; pick?: numbe
       </div>
       <div style={{ fontSize: 15.5, fontWeight: 700, marginBottom: 6 }}>{it.q}</div>
       {!correct && <div style={{ fontSize: 14.5, color: "var(--soft)" }}>정답: <b style={{ color: "var(--ink)" }}>{ans}</b></div>}
+    </div>
+  );
+}
+
+function Celebration({ nextId, onNext }: { nextId: number | null; onNext: () => void }) {
+  const colors = ["#2F6BFF", "#15A87A", "#E69A1F", "#E5564B", "#9DB4FF", "#FFD36E"];
+  const pieces = Array.from({ length: 20 });
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "linear-gradient(135deg,#EAF1FF,#F5F6F8)", display: "grid", placeItems: "center", padding: 24, overflow: "hidden" }}>
+      {pieces.map((_, k) => {
+        const left = (k * 53) % 100;
+        const delay = (k % 6) * 0.12;
+        const dur = 1 + ((k % 5) * 0.18);
+        const sz = 7 + (k % 4) * 2;
+        return <span key={k} style={{ position: "absolute", top: -14, left: `${left}%`, width: sz, height: sz * 0.62, background: colors[k % colors.length], borderRadius: 2, animation: `confettiFall ${dur}s ease-in ${delay}s forwards` }} />;
+      })}
+      <div className="pop" style={{ textAlign: "center", zIndex: 1 }}>
+        <div className="buddy-bob" style={{ display: "inline-block" }}><Buddy mood="cheer" size={120} /></div>
+        <h2 style={{ fontSize: 24, fontWeight: 800, margin: "12px 0 6px" }}>🎉 미션 완료!</h2>
+        <p style={{ fontSize: 16, color: "var(--soft)", margin: "0 0 22px", lineHeight: 1.6 }}>
+          {nextId ? "멋져요! 바로 다음 레벨로 이어가요." : "끝까지 해냈어요! 정말 잘했어요."}
+        </p>
+        <button onClick={onNext} className="btn lift" style={{ minWidth: 240 }}>{nextId ? "다음 레벨로 →" : "홈으로 🏠"}</button>
+      </div>
     </div>
   );
 }

@@ -42,3 +42,6 @@ a,button,.card,.lift{touch-action:manipulation}
   .btn{padding:13px 16px;font-size:15px}
   .btn-ghost{padding:12px 14px;font-size:14px}
 }
+@keyframes splashDot{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-5px)}}
+.splash-dot{animation:splashDot 1s ease-in-out infinite}
+@keyframes confettiFall{0%{transform:translateY(-12px) rotate(0);opacity:1}100%{transform:translateY(130px) rotate(380deg);opacity:0}}
