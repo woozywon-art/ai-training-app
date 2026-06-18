@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { GOAL, INTRO, DAYS, PRACTICE, levelById, type Level } from "@/lib/course";
 import { Guide } from "@/components/Buddy";
+import { getStreak } from "@/lib/streak";
 
 const BUILDER = Array.from({ length: 20 }, (_, k) => k + 1);
 const ALL: Level[] = [...INTRO, ...BUILDER.map((i) => levelById(i)!), ...PRACTICE];
@@ -30,6 +31,9 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
   const dn = ALL.filter((l) => done[l.id]).length;
   const nextId = [...INTRO.map((l) => l.id), ...BUILDER, ...PRACTICE.map((l) => l.id)].find((i) => !done[i]) ?? 90;
   const nextLv = levelById(nextId)!;
+  const [streak, setStreak] = useState(0);
+  useEffect(() => setStreak(getStreak()), []);
+  const recs = [...INTRO.map((l) => l.id), ...BUILDER, ...PRACTICE.map((l) => l.id)].filter((id) => !done[id]).slice(0, 3).map((id) => levelById(id)!);
   const nextBuilder = BUILDER.find((i) => !done[i]) ?? 1;
 
   const trk = (k: string) => `/track/${encodeURIComponent(k)}`;
@@ -77,7 +81,7 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
         </div>
       ) : (
         <div style={{ padding: "4px 0 0" }}>
-          <div style={{ padding: "0 18px 4px" }}>
+          <div style={{ padding: "0 18px 4px" }}>{streak > 0 && <div style={{ marginBottom: 10 }}><span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "var(--amberSoft)", color: "var(--amber)", fontWeight: 800, fontSize: 12.5, padding: "5px 11px", borderRadius: 99 }}>🔥 {streak}일 연속</span></div>}
             <Guide mood={dn === 0 ? "happy" : "cheer"} size={54} read={false} text={dn === 0 ? "AI를 실무에 ‘써먹는’ 법, 저랑 같이 시작해요! 아래 아이콘에서 골라 눌러보세요 👇" : `벌써 ${dn}개나 했네요, 멋져요! 이어서 가볼까요? 😊`} />
           </div>
           {/* 이어서 학습 */}
@@ -91,6 +95,14 @@ function HomeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: 
               <span style={{ fontSize: 22 }}>›</span>
             </Link>
           </div>
+
+          {recs.length > 0 && (
+            <Section title="🎯 오늘의 추천">
+              <HScroll>
+                {recs.map((l) => <BigCard key={l.id} l={l} done={done[l.id]} accent="var(--blue)" />)}
+              </HScroll>
+            </Section>
+          )}
 
           {/* 퀵 아이콘 그리드 (리모컨) */}
           <div data-tour="quick" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6, padding: "16px 12px 6px" }}>
@@ -205,12 +217,17 @@ function MeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: Ta
   const pct = Math.round((dn / ALL.length) * 100);
   const nextId = ALL.map((l) => l.id).find((i) => !done[i]) ?? 90;
   const nextLv = levelById(nextId)!;
+  const [streak, setStreak] = useState(0);
+  useEffect(() => setStreak(getStreak()), []);
+  const tags: string[] = [];
+  PRACTICE.forEach((l) => { if (!tags.includes(l.tags[0])) tags.push(l.tags[0]); });
+  const tracks = [{ key: "intro", label: "🚀 시작하기", ids: INTRO.map((l) => l.id) }, { key: "builder", label: "🧱 만들기", ids: BUILDER }, ...tags.map((t) => ({ key: t, label: t, ids: PRACTICE.filter((l) => l.tags[0] === t).map((l) => l.id) }))];
   const r = 52, c = 2 * Math.PI * r;
   return (
     <main className="fade">
       <TopBar title="내 학습" />
       <div style={{ padding: "0 18px" }}>
-        <div style={{ marginBottom: 14, marginTop: 8 }}><Guide mood={pct >= 100 ? "cheer" : "talk"} size={54} read={false} text={pct === 0 ? "여기서 진행률을 볼 수 있어요. 한 걸음씩 같이 가요!" : `지금까지 ${pct}% 왔어요. 정말 잘하고 있어요!`} /></div>
+        <div style={{ marginBottom: 14, marginTop: 8 }}>{streak > 0 && <div style={{ marginBottom: 10 }}><span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "var(--amberSoft)", color: "var(--amber)", fontWeight: 800, fontSize: 12.5, padding: "5px 11px", borderRadius: 99 }}>🔥 {streak}일 연속</span></div>}<Guide mood={pct >= 100 ? "cheer" : "talk"} size={54} read={false} text={pct === 0 ? "여기서 진행률을 볼 수 있어요. 한 걸음씩 같이 가요!" : `지금까지 ${pct}% 왔어요. 정말 잘하고 있어요!`} /></div>
         <div className="card" style={{ display: "grid", placeItems: "center", padding: 24 }}>
           <svg width="140" height="140" viewBox="0 0 140 140">
             <circle cx="70" cy="70" r={r} fill="none" stroke="var(--line)" strokeWidth="12" />
@@ -218,6 +235,17 @@ function MeTab({ done, setTab }: { done: Record<number, boolean>; setTab: (t: Ta
             <text x="70" y="64" textAnchor="middle" fontSize="30" fontWeight="800" fill="var(--ink)">{pct}%</text>
             <text x="70" y="86" textAnchor="middle" fontSize="13" fontWeight="700" fill="var(--soft)">{dn}/{ALL.length} 완료</text>
           </svg>
+        </div>
+        <div className="card" style={{ marginTop: 14 }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "var(--soft)", marginBottom: 13 }}>트랙별 진행</div>
+          <div style={{ display: "grid", gap: 14 }}>
+            {tracks.map((t) => { const d = t.ids.filter((id) => done[id]).length; const pp = t.ids.length ? Math.round((d / t.ids.length) * 100) : 0; return (
+              <Link key={t.key} href={`/track/${encodeURIComponent(t.key)}`} className="lift" style={{ display: "block" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, fontWeight: 700, marginBottom: 6 }}><span>{t.label}</span><span style={{ color: pp === 100 ? "var(--green)" : "var(--soft)", fontWeight: 800 }}>{d}/{t.ids.length}</span></div>
+                <div style={{ height: 7, background: "var(--line)", borderRadius: 99, overflow: "hidden" }}><div style={{ height: "100%", width: `${pp}%`, background: pp === 100 ? "var(--green)" : "var(--blue)", borderRadius: 99, transition: "width .5s" }} /></div>
+              </Link>
+            ); })}
+          </div>
         </div>
         <Link href={`/level/${nextId}`} prefetch className="lift" style={{ display: "flex", alignItems: "center", gap: 12, background: "var(--stage)", color: "#fff", borderRadius: 16, padding: "16px 18px", margin: "14px 0" }}>
           <span style={{ fontSize: 24 }}>{dn === 0 ? "✨" : "▶"}</span>

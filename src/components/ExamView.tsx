@@ -60,7 +60,7 @@ export default function ExamView({ level }: { level: Level }) {
               </ul>
             </div>
             <div style={{ marginTop: 16, background: "var(--greenSoft)", border: "1.5px solid var(--green)", borderRadius: 12, padding: "14px 16px", fontSize: 16, fontWeight: 800, color: "#0d7a57", textAlign: "center" }}>
-              📨 다 만들었으면, 관리자에게 결과물을 제출해보세요!
+              📨 다 만들었으면, 사수에게 결과물을 제출해보세요!
             </div>
           </div>
         ) : (
